@@ -1,18 +1,10 @@
-use std::{fs::File, io::Read};
-
-fn main() {
-    let contents = read_file("input.txt").expect("Couldn't find file");
+fn main() -> std::io::Result<()> {
+    let contents = std::fs::read_to_string("input.txt")?;
     let vec = sum_elf_calories(&contents);
 
     part_a(vec.clone());
     part_b(vec);
-}
-
-fn read_file(file: &str) -> std::io::Result<String> {
-    let mut file = File::open(file)?;
-    let mut contents = String::new();
-    file.read_to_string(&mut contents)?;
-    Ok(contents)
+    Ok(())
 }
 
 fn sum_elf_calories(contents: &str) -> Vec<i32> {
@@ -32,14 +24,8 @@ fn sum_elf_calories(contents: &str) -> Vec<i32> {
 }
 
 fn part_a(vec: Vec<i32>) {
-    let mut prev_n = 0;
-    for n in vec {
-        if n > prev_n {
-            prev_n = n;
-            continue;
-        }
-    }
-    println!("Part A = {prev_n}");
+    let max = vec.iter().max().expect("Expected a vector");
+    println!("Part A = {max}");
 }
 
 fn part_b(vec: Vec<i32>) {
